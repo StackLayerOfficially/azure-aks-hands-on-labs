@@ -67,5 +67,5 @@ az aks stop --resource-group aks-rg --name aks-cluster
 ---
 
 <div align="center">
-  <sub>Part of the <a href="https://github.com/StackLayerOfficially/azure-aks-hands-on-labs">Azure AKS Hands-on Labs Series</a> by <b>Stack Layer</b></sub>
+  <sub>Part of the <a href="https://github.com/StackLayerOfficially/azure-aks-hands-on-labs">Azure AKS Hands-on Labs</a> by <b>Stack Layer</b></sub>
 </div>
