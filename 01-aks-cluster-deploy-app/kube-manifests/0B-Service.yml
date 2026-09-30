@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: myweb-loadbalancer
+  name: stacklayer-web-loadbalancer
   labels: 
-    app: myweb
+    app: stacklayer-web
 spec:
   type: LoadBalancer 
   selector:
-    app: myweb
+    app: stacklayer-web
   ports: 
     - port: 80
       targetPort: 80
