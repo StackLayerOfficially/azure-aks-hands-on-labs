@@ -16,7 +16,7 @@ Declarative Kubernetes manifests for provisioning an AKS cluster, connecting via
 01-aks-cluster-deploy-app/
 ├── README.md
 └── kube-manifests/
-    ├── 0A-Deployment.yml   # Nginx container deployment (replicas, ports, and resource limits)
+    ├── 0A-Deployment.yml   # Nginx container deployment (replicas and ports)
     └── 0B-Service.yml      # Azure Standard Load Balancer (public IP on port 80)
 ```
 
