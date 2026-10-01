@@ -8,7 +8,7 @@ In real-world Kubernetes deployments, managing workloads declaratively through Y
 
 ## 📖 Companion Blog Guide
 For comprehensive step-by-step explanations, command-line equivalents, and live container log diagnostics, refer to our companion publication:
-* **Official Guide:** [Zero-Downtime Rolling Updates, Pod Scaling, and Log Troubleshooting on Azure AKS](https://stacklayer.blogspot.com/2026/08/azure-aks-tutorial-deploy-first-app.html)
+* **Official Guide:** [Zero-Downtime Rolling Updates, Pod Scaling, and Log Troubleshooting on Azure AKS](https://stacklayer.blogspot.com/2026/09/azure-aks-tutorial-scaling-rolling-updates.html)
 
 ---
 
