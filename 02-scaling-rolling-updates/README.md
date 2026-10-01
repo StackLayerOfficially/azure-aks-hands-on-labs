@@ -2,7 +2,7 @@
 
 Welcome to the hands-on cloud operations lab by [Stack Layer](https://stacklayer.blogspot.com/).
 
-In real-world Kubernetes deployments, managing workloads declaratively through YAML manifests ensures consistency, auditability, and reliable version control. In this hands-on lab, you will learn how to scale application replicas and perform seamless, zero-downtime rolling updates across container releases (`nginx-v1` ➔ `nginx-v2` ➔ `nginx-v3`) using declarative Kubernetes configuration files.
+In real-world Kubernetes deployments, managing workloads declaratively through separate, version-controlled YAML manifests guarantees predictability, auditability, and seamless teamwork. In this hands-on lab, you will learn how to scale application replicas and perform zero-downtime rolling updates across production container releases (`nginx-v1` ➔ `nginx-v2` ➔ `nginx-v3`) using dedicated Kubernetes configuration files.
 
 ---
 
@@ -18,8 +18,10 @@ For comprehensive step-by-step explanations, command-line equivalents, and live 
 02-scaling-rolling-updates/
 ├── README.md
 └── kube-manifests/
-    ├── 0A-Deployment.yaml
-    └── 0B-Service.yaml
+    ├── 01-Deployment-v1.yaml    # Baseline: 2 Replicas, image: stacklayer/kubernetes:nginx-v1
+    ├── 02-Deployment-v2.yaml    # Scaled & Updated: 5 Replicas, image: stacklayer/kubernetes:nginx-v2
+    ├── 03-Deployment-v3.yaml    # Next Release: 5 Replicas, image: stacklayer/kubernetes:nginx-v3
+    └── 04-Service.yaml          # Azure Load Balancer (Public IP Endpoint)
 ```
 
 ---
@@ -27,10 +29,10 @@ For comprehensive step-by-step explanations, command-line equivalents, and live 
 ## 🎯 Learning Objectives
 
 By completing this lab, you will:
-1. Declaratively scale pod replicas from 2 up to 5 by updating `0A-Deployment.yaml`.
-2. Perform a **Zero-Downtime Rolling Update** by upgrading the container image from `stacklayer/kubernetes:nginx-v1` to `stacklayer/kubernetes:nginx-v2`.
-3. Promote an updated release to `stacklayer/kubernetes:nginx-v3` with uninterrupted user connectivity.
-4. Verify that the public Azure Load Balancer (`0B-Service.yaml`) remains active and stable while pods update in the background.
+1. Deploy a baseline web workload using `01-Deployment-v1.yaml` and `04-Service.yaml`.
+2. Declaratively scale pod replicas from 2 to 5 while simultaneously executing a **Zero-Downtime Rolling Update** to `stacklayer/kubernetes:nginx-v2` using `02-Deployment-v2.yaml`.
+3. Promote an updated release to `stacklayer/kubernetes:nginx-v3` with zero service interruption using `03-Deployment-v3.yaml`.
+4. Verify that the front-facing Azure Load Balancer (`04-Service.yaml`) remains persistent and uninterrupted throughout all rolling updates.
 5. Track deployment rollout progress and inspect historical revisions.
 6. Safely manage cluster lifecycles using Azure CLI to eliminate unnecessary cloud billing.
 
@@ -55,11 +57,11 @@ kubectl cluster-info
 
 ## 🚀 Declarative Step-by-Step Hands-On Guide
 
-### Step 1: Deploy Baseline Application Manifests
+### Step 1: Deploy Baseline Application (`v1`)
 
-Ensure your baseline web application is deployed using the two declarative manifests:
+Deploy the baseline version of the application consisting of 2 pod replicas running `nginx-v1` behind an Azure Standard Load Balancer.
 
-#### `kube-manifests/0A-Deployment.yaml` (Baseline: 2 Replicas, nginx-v1)
+#### `kube-manifests/01-Deployment-v1.yaml`
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -83,7 +85,7 @@ spec:
             - containerPort: 80
 ```
 
-#### `kube-manifests/0B-Service.yaml` (Azure Load Balancer)
+#### `kube-manifests/04-Service.yaml`
 ```yaml
 apiVersion: v1
 kind: Service
@@ -100,48 +102,39 @@ spec:
       targetPort: 80
 ```
 
-Apply both manifests to your AKS cluster:
+Apply both manifests:
 ```bash
-# Apply baseline manifests
-kubectl apply -f kube-manifests/
+# Apply baseline deployment and load balancer service
+kubectl apply -f kube-manifests/01-Deployment-v1.yaml
+kubectl apply -f kube-manifests/04-Service.yaml
 
-# Verify running pods and external IP
+# Verify running pods and service IP
 kubectl get pods -l app=stacklayer-web
 kubectl get svc stacklayer-web-loadbalancer
 ```
 
 ---
 
-### Step 2: Declarative Pod Scaling (Scale Up to 5 Replicas)
+### Step 2: Scale Up to 5 Replicas & Rolling Update to `nginx-v2`
 
-When application demand increases, scale your workload declaratively by updating the desired state in your manifest:
+To handle increased traffic and deploy software release `v2`, apply `02-Deployment-v2.yaml`. This manifest increases the desired replica count from 2 to 5 and updates the container image to `stacklayer/kubernetes:nginx-v2`.
 
-1. Open `kube-manifests/0A-Deployment.yaml` and update `replicas` to `5`:
+#### `kube-manifests/02-Deployment-v2.yaml`
 ```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-web-deployment
 spec:
   replicas: 5
-```
-
-2. Apply the updated manifest:
-```bash
-# Apply scaled configuration
-kubectl apply -f kube-manifests/0A-Deployment.yaml
-
-# Watch new pods spin up across cluster nodes in real time
-kubectl get pods -l app=stacklayer-web -w
-```
-*(Press `Ctrl + C` once all 5 pods report `Running` status).*
-
-Notice that `0B-Service.yaml` requires zero modifications—the Azure Load Balancer automatically detects the new pods and begins distributing web traffic evenly across all 5 instances.
-
----
-
-### Step 3: Zero-Downtime Rolling Update to `nginx-v2`
-
-When releasing an updated version of your application, Kubernetes uses a staged rolling update strategy: it starts a new pod with the updated image, confirms its readiness, and only then terminates an older pod.
-
-1. Open `kube-manifests/0A-Deployment.yaml` and update the container image to `stacklayer/kubernetes:nginx-v2`:
-```yaml
+  selector:
+    matchLabels:
+      app: stacklayer-web
+  template: 
+    metadata: 
+      name: stacklayer-web-pod
+      labels: 
+        app: stacklayer-web       
     spec:
       containers: 
         - name: stacklayer-web-container
@@ -150,29 +143,42 @@ When releasing an updated version of your application, Kubernetes uses a staged 
             - containerPort: 80
 ```
 
-2. Apply the manifest to start the rollout:
+Apply the updated manifest:
 ```bash
-# Apply the version 2 update
-kubectl apply -f kube-manifests/0A-Deployment.yaml
+# Apply scaled v2 deployment
+kubectl apply -f kube-manifests/02-Deployment-v2.yaml
 
-# Monitor rollout progression in real time
+# Monitor the rollout status in real-time
 kubectl rollout status deployment/stacklayer-web-deployment
+
+# Confirm that 5 pods are running with nginx-v2
+kubectl get pods -l app=stacklayer-web -o wide
 ```
 
-3. Confirm that all running pods are now serving version 2:
-```bash
-# Check the container image on all active pods
-kubectl get pods -l app=stacklayer-web -o jsonpath="{..image}"
-```
+> **Notice:** The Azure Load Balancer defined in `04-Service.yaml` requires zero updates. It automatically discovers all 5 pods and distributes traffic across them without a single millisecond of downtime.
 
 ---
 
-### Step 4: Promote Release to `nginx-v3` & View Revision History
+### Step 3: Promote Next Production Release to `nginx-v3`
 
-To release the next application iteration, update the image tag to `nginx-v3`:
+When the development team delivers release `v3`, deploy `03-Deployment-v3.yaml` to execute another staged rolling update.
 
-1. Update `kube-manifests/0A-Deployment.yaml`:
+#### `kube-manifests/03-Deployment-v3.yaml`
 ```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-web-deployment
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: stacklayer-web
+  template: 
+    metadata: 
+      name: stacklayer-web-pod
+      labels: 
+        app: stacklayer-web       
     spec:
       containers: 
         - name: stacklayer-web-container
@@ -181,27 +187,27 @@ To release the next application iteration, update the image tag to `nginx-v3`:
             - containerPort: 80
 ```
 
-2. Apply the update:
+Apply the `v3` release:
 ```bash
-kubectl apply -f kube-manifests/0A-Deployment.yaml
-kubectl rollout status deployment/stacklayer-web-deployment
-```
+# Deploy v3
+kubectl apply -f kube-manifests/03-Deployment-v3.yaml
 
-3. Inspect the documented deployment revision history:
-```bash
-# View rollout revision history
+# Track rollout progress
+kubectl rollout status deployment/stacklayer-web-deployment
+
+# Inspect rollout revision history
 kubectl rollout history deployment/stacklayer-web-deployment
 ```
 
 ---
 
-### Step 5: Declarative Rollback to a Previous Version
+### Step 4: Declarative Rollback to a Previous Stable Release
 
-If a release needs to be rolled back, simply update `0A-Deployment.yaml` back to the desired image tag (e.g., `stacklayer/kubernetes:nginx-v2`) and re-apply:
+If an issue occurs in `v3` and you need to restore the stable `v2` environment immediately, re-apply `02-Deployment-v2.yaml`:
 
 ```bash
-# Apply previous manifest configuration
-kubectl apply -f kube-manifests/0A-Deployment.yaml
+# Revert to stable v2 release declaratively
+kubectl apply -f kube-manifests/02-Deployment-v2.yaml
 
 # Confirm rollback completion
 kubectl rollout status deployment/stacklayer-web-deployment
@@ -237,5 +243,11 @@ az group delete --name stacklayer-aks-rg --yes --no-wait
 ---
 
 <div align="center">
+  <br />
+  <h3>🚀 Never Stop Building, Never Stop Scaling</h3>
+  <p style="max-width: 580px; line-height: 1.6; font-style: italic;">
+    “True cloud mastery isn’t memorizing theory—it’s the confidence earned by provisioning, breaking, troubleshooting, and orchestrating resilient systems with your own hands.”
+  </p>
+  <br />
   <sub>Built with ❤️ by the <b>Stack Layer Engineering Team</b></sub>
 </div>
