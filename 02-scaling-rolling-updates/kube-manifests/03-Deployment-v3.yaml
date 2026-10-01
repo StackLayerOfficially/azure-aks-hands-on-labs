@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-web-deployment
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: stacklayer-web
+  template: 
+    metadata: 
+      name: stacklayer-web-pod
+      labels: 
+        app: stacklayer-web       
+    spec:
+      containers: 
+        - name: stacklayer-web-container
+          image: stacklayer/kubernetes:nginx-v3
+          ports:
+            - containerPort: 80
