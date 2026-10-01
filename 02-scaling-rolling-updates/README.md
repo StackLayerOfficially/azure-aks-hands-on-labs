@@ -236,4 +236,6 @@ az group delete --name stacklayer-aks-rg --yes --no-wait
 
 ---
 
-Built with ❤️ by the Stack Layer Engineering Team
+<div align="center">
+  <sub>Built with ❤️ by the <b>Stack Layer Engineering Team</b></sub>
+</div>
