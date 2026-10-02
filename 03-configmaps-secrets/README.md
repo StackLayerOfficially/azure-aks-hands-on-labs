@@ -10,7 +10,7 @@ In this hands-on lab, you will learn how to declare, manage, and inject non-sens
 
 ## 📖 Companion Blog Guide
 For in-depth architectural breakdowns, security best practices, and Azure CLI imperative workflows, refer to our companion publication:
-* **Official Guide:** [Configuration Management on Azure AKS: Decoupling ConfigMaps and Secrets Step-by-Step](https://stacklayer.blogspot.com/2026/09/azure-aks-configmaps-secrets.html)
+* **Official Guide:** [Configuration Management on Azure AKS: Decoupling ConfigMaps and Secrets Step-by-Step](https://stacklayer.blogspot.com/2026/09/azure-aks-tutorial-configmaps-secrets.html)
 
 ---
 
