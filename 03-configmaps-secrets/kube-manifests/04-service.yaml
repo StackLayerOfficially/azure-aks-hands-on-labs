@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stacklayer-secure-service
+  labels:
+    app: stacklayer-secure-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: stacklayer-secure-app
+  ports:
+  - port: 80
+    targetPort: 80
