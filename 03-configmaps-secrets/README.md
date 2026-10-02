@@ -245,7 +245,7 @@ az group delete --name stacklayer-aks-rg --yes --no-wait
 
 ## 🤝 Community & Support
 * 💬 Have questions or run into an issue? Join the conversation in [GitHub Discussions](https://github.com/StackLayerOfficially/azure-aks-hands-on-labs/discussions).
-* 🌐 Explore more hands-on cloud tutorials on [Stack Layer](https://stacklayer.blogspot.com/).
+* 🌐 Explore more hands-on cloud labs on [Stack Layer](https://stacklayer.blogspot.com/).
 
 ---
 
