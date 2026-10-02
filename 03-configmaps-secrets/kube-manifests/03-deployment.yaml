@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-secure-deployment
+  labels:
+    app: stacklayer-secure-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stacklayer-secure-app
+  template:
+    metadata:
+      labels:
+        app: stacklayer-secure-app
+    spec:
+      containers:
+      - name: secure-app
+        image: stacklayer/kubernetes:nginx-v1
+        ports:
+        - containerPort: 80
+        # Method 1: Inject as Environment Variables
+        envFrom:
+        - configMapRef:
+            name: stacklayer-app-config
+        - secretRef:
+            name: stacklayer-app-secret
+        # Method 2: Mount as read-only files inside the pod
+        volumeMounts:
+        - name: secret-volume
+          mountPath: "/etc/secrets"
+          readOnly: true
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: stacklayer-app-secret
