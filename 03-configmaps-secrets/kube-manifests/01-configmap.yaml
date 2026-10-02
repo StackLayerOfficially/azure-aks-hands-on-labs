@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stacklayer-app-config
+  labels:
+    app: stacklayer-secure-app
+data:
+  APP_ENV: "production"
+  APP_PORT: "80"
+  LOG_LEVEL: "debug"
+  FEATURE_FLAG_ANALYTICS: "true"
