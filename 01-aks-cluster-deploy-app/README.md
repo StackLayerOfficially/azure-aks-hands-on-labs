@@ -1,4 +1,4 @@
-# 01: Deploy Your First App on Azure Kubernetes Service (AKS)
+# Deploy Your First App on Azure Kubernetes Service (AKS)
 
 Declarative Kubernetes manifests for provisioning an AKS cluster, connecting via Azure CLI, and deploying a sample containerized web application exposed publicly via an Azure Standard Load Balancer.
 
