@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-files-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: stacklayer-files-app
+  template:
+    metadata:
+      labels:
+        app: stacklayer-files-app
+    spec:
+      containers:
+      - name: shared-worker
+        image: stacklayer/kubernetes:nginx-v2
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: shared-azurefile
+          mountPath: /mnt/azurefiles
+      volumes:
+      - name: shared-azurefile
+        persistentVolumeClaim:
+          claimName: stacklayer-files-pvc
