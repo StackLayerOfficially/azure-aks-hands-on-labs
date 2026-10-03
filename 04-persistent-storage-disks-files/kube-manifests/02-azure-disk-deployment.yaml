@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-disk-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stacklayer-disk-app
+  template:
+    metadata:
+      labels:
+        app: stacklayer-disk-app
+    spec:
+      containers:
+      - name: storage-tester
+        image: stacklayer/kubernetes:nginx-v1
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: azure-disk-storage
+          mountPath: /mnt/azuredisk
+      volumes:
+      - name: azure-disk-storage
+        persistentVolumeClaim:
+          claimName: stacklayer-disk-pvc
