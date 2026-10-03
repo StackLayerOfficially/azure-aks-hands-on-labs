@@ -1,4 +1,4 @@
-# Persistent Storage on Azure AKS: Azure Managed Disks & Azure Files (PV & PVCs)
+# Stateful Workloads on Azure AKS: Persistent Volumes with Azure Disks & Azure Files  (PV & PVCs)
 
 Welcome to the hands-on cloud operations lab by [Stack Layer](https://stacklayer.blogspot.com/).
 
@@ -12,7 +12,7 @@ In this hands-on lab, you will master dynamic persistent storage provisioning on
 
 ## 📖 Companion Blog Guide
 For in-depth architectural diagrams, access mode deep dives, and live troubleshooting checks, refer to our companion publication:
-* **Official Guide:** [Azure AKS Persistent Storage: Connecting Azure Managed Disks and Azure Files with PV and PVCs](https://stacklayer.blogspot.com/2026/09/azure-aks-persistent-storage-disks-files.html)
+* **Official Guide:** [Stateful Workloads on Azure AKS: Persistent Volumes with Azure Disks & Azure Files with PV and PVCs](https://stacklayer.blogspot.com/2026/09/azure-aks-persistent-storage-disks-files.html)
 
 ---
 
