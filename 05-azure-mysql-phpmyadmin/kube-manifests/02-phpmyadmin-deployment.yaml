@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-phpmyadmin-deployment
+  labels:
+    app: stacklayer-phpmyadmin
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stacklayer-phpmyadmin
+  template:
+    metadata:
+      labels:
+        app: stacklayer-phpmyadmin
+    spec:
+      containers:
+      - name: phpmyadmin
+        image: phpmyadmin/phpmyadmin:latest
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+        - name: PMA_HOST
+          valueFrom:
+            secretKeyRef:
+              name: stacklayer-mysql-secret
+              key: PMA_HOST
+        - name: PMA_USER
+          valueFrom:
+            secretKeyRef:
+              name: stacklayer-mysql-secret
+              key: PMA_USER
+        - name: PMA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: stacklayer-mysql-secret
+              key: PMA_PASSWORD
+        - name: PMA_SSL
+          value: "true"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"
