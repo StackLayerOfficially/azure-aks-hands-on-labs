@@ -10,7 +10,7 @@ In this hands-on lab, you will learn how to provision a managed Azure MySQL Flex
 
 ## 📖 Companion Blog Guide
 For comprehensive architectural diagrams, deep-dive firewall rule explanations, SSL/TLS connection parameters, and GUI troubleshooting, refer to our companion publication:
-* **Official Guide:** [Azure AKS: Connect Azure Database for MySQL Flexible Server to phpMyAdmin Step-by-Step](https://stacklayer.blogspot.com/2026/09/azure-aks-connect-mysql-flexible-server-phpmyadmin.html)
+* **Official Guide:** [Azure AKS: Connect Azure Database for MySQL Flexible Server to phpMyAdmin Step-by-Step](https://stacklayer.blogspot.com/2026/09/connect-azure-mysql-flexible-server-phpmyadmin-aks.html)
 
 ---
 
