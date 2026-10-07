@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-wordpress-deployment
+  labels:
+    app: stacklayer-wordpress
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stacklayer-wordpress
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: stacklayer-wordpress
+        tier: frontend
+    spec:
+      containers:
+        - name: wordpress
+          image: stacklayer/wordpress:latest
+          env:
+            - name: WORDPRESS_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: stacklayer-mysql-secret
+                  key: WORDPRESS_DB_HOST
+            - name: WORDPRESS_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: stacklayer-mysql-secret
+                  key: WORDPRESS_DB_NAME
+            - name: WORDPRESS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: stacklayer-mysql-secret
+                  key: WORDPRESS_DB_USER
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: stacklayer-mysql-secret
+                  key: WORDPRESS_DB_PASSWORD
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          volumeMounts:
+            - name: wordpress-storage
+              mountPath: /var/www/html/wp-content
+      volumes:
+        - name: wordpress-storage
+          persistentVolumeClaim:
+            claimName: stacklayer-wordpress-pvc
