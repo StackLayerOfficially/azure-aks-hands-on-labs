@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stacklayer-wordpress-service
+  labels:
+    app: stacklayer-wordpress
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+  selector:
+    app: stacklayer-wordpress
+    tier: frontend
