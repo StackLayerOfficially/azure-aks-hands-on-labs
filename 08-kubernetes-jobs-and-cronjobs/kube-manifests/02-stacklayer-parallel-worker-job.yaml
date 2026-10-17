@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: stacklayer-parallel-worker-job
+  labels:
+    app: stacklayer-parallel-worker
+spec:
+  completions: 4
+  parallelism: 2
+  backoffLimit: 3
+  activeDeadlineSeconds: 120
+  template:
+    metadata:
+      labels:
+        app: stacklayer-parallel-worker
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: data-aggregator
+        image: stacklayer/batch-runner:v1.0
+        env:
+        - name: TASK_NAME
+          value: "partition-processing"
+        - name: BATCH_MODE
+          value: "parallel"
