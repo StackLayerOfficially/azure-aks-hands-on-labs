@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: stacklayer-db-backup-cronjob
+  labels:
+    app: stacklayer-backup-service
+    stacklayer.io/tier: scheduled-task
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 2
+  startingDeadlineSeconds: 100
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: stacklayer-backup-service
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: backup-agent
+            image: stacklayer/batch-runner:v1.0
+            env:
+            - name: TASK_NAME
+              value: "database-backup"
+            - name: RETENTION_DAYS
+              value: "7"
