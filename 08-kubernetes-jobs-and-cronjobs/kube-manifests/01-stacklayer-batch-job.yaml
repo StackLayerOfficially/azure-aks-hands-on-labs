@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: stacklayer-batch-job
+  labels:
+    app: stacklayer-batch-processor
+    stacklayer.io/tier: automation
+spec:
+  template:
+    metadata:
+      labels:
+        app: stacklayer-batch-processor
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: batch-worker
+        image: stacklayer/batch-runner:v1.0
+        env:
+        - name: TASK_NAME
+          value: "database-migration"
+        - name: BATCH_MODE
+          value: "sequential"
