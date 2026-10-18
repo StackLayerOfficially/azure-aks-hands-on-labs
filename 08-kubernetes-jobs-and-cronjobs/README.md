@@ -43,7 +43,7 @@ By executing this hands-on lab, you will achieve the following production capabi
 ## 📋 Prerequisites
 
 * An active **Azure Subscription** (Free Trial, Student Credits, or Pay-As-You-Go).
-* A running **Azure AKS Cluster** (provisioned as shown in [Deploy Your First Containerized App on Azure Kubernetes Service (AKS)](https://stacklayer.blogspot.com/)).
+* A running **Azure AKS Cluster** (provisioned as shown in [Deploy Your First Containerized App on Azure Kubernetes Service (AKS)](https://stacklayer.blogspot.com/2026/08/azure-aks-tutorial-deploy-first-app.html)).
 * **Azure CLI** (`az`) and **Kubectl** installed and authenticated.
 
 Connect your local terminal to your running cluster:
