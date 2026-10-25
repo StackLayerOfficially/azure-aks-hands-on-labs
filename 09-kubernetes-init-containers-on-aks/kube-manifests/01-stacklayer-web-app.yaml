@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-web-app
+  labels:
+    app: stacklayer-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stacklayer-web
+  template:
+    metadata:
+      labels:
+        app: stacklayer-web
+    spec:
+      initContainers:
+        - name: wait-for-database
+          image: stacklayer/init-container:v1.0
+          command:
+            - "sh"
+            - "-c"
+            - |
+              echo "Starting database readiness check..."
+              until nc -z -v -w3 stacklayer-postgres-service 5432; do
+                echo "Waiting for stacklayer-postgres-service:5432 to accept TCP connections..."
+                sleep 2
+              done
+              echo "Database is reachable! Proceeding with main application startup."
+      containers:
+        - name: stacklayer-web-container
+          image: stacklayer/kubernetes:nginx-v1
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "150m"
+              memory: "128Mi"
