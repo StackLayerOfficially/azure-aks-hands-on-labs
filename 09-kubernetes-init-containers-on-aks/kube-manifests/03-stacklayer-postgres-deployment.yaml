@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-postgres-deployment
+  labels:
+    app: stacklayer-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stacklayer-postgres
+  template:
+    metadata:
+      labels:
+        app: stacklayer-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: stacklayer/postgres:v1.0
+          ports:
+            - containerPort: 5432
+              name: postgres
+          env:
+            - name: POSTGRES_DB
+              value: "stacklayerdb"
+            - name: POSTGRES_USER
+              value: "stackadmin"
+            - name: POSTGRES_PASSWORD
+              value: "StackLayerClusterSecurePass2026!"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
