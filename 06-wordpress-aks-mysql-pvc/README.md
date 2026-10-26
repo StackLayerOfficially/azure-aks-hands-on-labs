@@ -67,24 +67,9 @@ kubectl get nodes
 
 ## 🏗️ Architecture Overview
 
-```text
-                      +---------------------------------------------------+
-                      |             Azure Kubernetes Service              |
-                      |            (stacklayer-aks-cluster)               |
-                      |                                                   |
-Internet Traffic ---> |  [Service: LoadBalancer]                          |
-                      |             |                                     |
-                      |      [WordPress Pods] <---> [Azure Managed Disk]  |
-                      |      (stacklayer/     |     (Mount: wp-content)   |
-                      |       wordpress:latest)                           |
-                      +-------------|-------------------------------------+
-                                    |
-                                    v (Encrypted MySQL SSL Connection)
-                      +---------------------------------------------------+
-                      |      Azure Database for MySQL Flexible Server     |
-                      |           (stacklayer-mysql-server)               |
-                      +---------------------------------------------------+
-```
+[![2-Tier WordPress on Azure AKS with PVC & Azure Database for MySQL Flexible Server](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhW0d8wj12aObKAF8baZJuBzKuSPGW5uSVVcQDjI0hkpbSOlim57i08QO0kGqaXecAxOOJtFs3AtOqM5SbV1JcKTnWNfoSBpvBD13TBMq83sjwFKIUmbw7wySbQGByU_-zcsaPfIY0Kspf246ZHEiBUjzP1M0hY9f1OL6cMlzggwuIeAuLZJB2YWZy0Owo/s1600/WordPress-1.jpg)](https://stacklayer.blogspot.com/2026/10/azure-aks-wordpress-mysql-pvc.html)
+
+*Figure 1: Production 2-Tier WordPress on Azure AKS with Persistent Storage (PVC) & Azure Database for MySQL Flexible Server.*
 
 ---
 
