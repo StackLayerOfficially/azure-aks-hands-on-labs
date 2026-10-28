@@ -12,7 +12,7 @@ This lab demonstrates how to implement deterministic pod startup gates using Kub
 
 For in-depth architectural diagrams, CoreDNS resolution packet walks, comparison tables, and Azure Portal visual verification, refer to our companion publication:
 
-* Official Guide: [Mastering Kubernetes Init Containers on Azure AKS: Pod Startup Sequencing & Dependency Probes](https://stacklayer.blogspot.com/2026/10/azure-aks-kubernetes-init-containers-pod-startup-sequencing.html)
+* Official Guide: [Architecting Resilient Pod Startup Order on Azure AKS with Kubernetes Init Containers](https://stacklayer.blogspot.com/2026/10/azure-aks-kubernetes-init-containers-pod-startup-order.html)
 
 ---
 
