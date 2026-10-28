@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: stacklayer-db
+spec:
+  serviceName: "stacklayer-stateful-service"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stacklayer-stateful-app
+  template:
+    metadata:
+      labels:
+        app: stacklayer-stateful-app
+    spec:
+      containers:
+        - name: nginx-stateful
+          image: stacklayer/kubernetes:nginx-v1
+          ports:
+            - containerPort: 80
+              name: web
+          volumeMounts:
+            - name: stateful-data
+              mountPath: /usr/share/nginx/html
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - 'echo "Data stored permanently on pod $(hostname)" > /usr/share/nginx/html/index.html'
+  volumeClaimTemplates:
+    - metadata:
+        name: stateful-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "managed-csi"
+        resources:
+          requests:
+            storage: 5Gi
