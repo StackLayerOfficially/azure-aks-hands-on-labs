@@ -1,4 +1,4 @@
-# StatefulSets vs. Deployments on Azure AKS: Architecting Ordered, Predictable Workloads
+#  Deployments vs. StatefulSets on Azure AKS: Architecting Ordered, Predictable Workloads
 
 Welcome to the hands-on cloud operations lab by [Stack Layer](https://stacklayer.blogspot.com/).
 
@@ -12,14 +12,14 @@ This lab provides verified, declarative Kubernetes manifests to deploy, inspect,
 
 For in-depth architectural diagrams, CoreDNS resolution packet walks, comparison tables, and Azure Portal visual verification, refer to our companion publication:
 
-* Official Guide: [StatefulSets vs. Deployments on Azure AKS: Architecting Ordered, Predictable Workloads](https://stacklayer.blogspot.com/2026/10/statefulsets-vs-deployments-azure-aks-ordered-predictable-workloads.html)
+* Official Guide: [Deployments vs. StatefulSets on Azure AKS: Architecting Ordered, Predictable Workloads](https://stacklayer.blogspot.com/2026/10/azure-aks-deployments-vs-statefulsets-ordered-workloads.html)
 
 ---
 
 ## 📁 Directory Structure
 
 ```text
-10-statefulsets-vs-deployments/
+10-deployments-vs-statefulsets/
 ├── README.md                                         # Lab documentation and operational runbook
 └── kube-manifests/
     ├── 01-stacklayer-stateful-headless-service.yaml   # Headless service for direct pod DNS routing
