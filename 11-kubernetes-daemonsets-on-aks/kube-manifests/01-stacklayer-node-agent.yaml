@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: stacklayer-node-agent
+  labels:
+    app: stacklayer-agent
+spec:
+  selector:
+    matchLabels:
+      app: stacklayer-agent
+  template:
+    metadata:
+      labels:
+        app: stacklayer-agent
+    spec:
+      containers:
+        - name: agent-container
+          image: stacklayer/node-agent:v1.0
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          resources:
+            requests:
+              cpu: "30m"
+              memory: "40Mi"
+            limits:
+              cpu: "100m"
+              memory: "80Mi"
+          volumeMounts:
+            - name: host-log-volume
+              mountPath: /host/var/log
+              readOnly: true
+      volumes:
+        - name: host-log-volume
+          hostPath:
+            path: /var/log
