@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: stacklayer-runaway-pod
+  namespace: stacklayer-governance
+spec:
+  containers:
+    - name: greedy-app
+      image: stacklayer/kubernetes:nginx-v1
+      resources:
+        requests:
+          cpu: "1000m"
+          memory: "1Gi"
+        limits:
+          cpu: "2000m"
+          memory: "2Gi"
