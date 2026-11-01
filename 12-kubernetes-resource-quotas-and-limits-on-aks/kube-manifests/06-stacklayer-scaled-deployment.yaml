@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-governed-deployment
+  namespace: stacklayer-governance
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: stacklayer-worker
+  template:
+    metadata:
+      labels:
+        app: stacklayer-worker
+    spec:
+      containers:
+        - name: worker
+          image: stacklayer/kubernetes:nginx-v1
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
