@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: stacklayer-governance
+  labels:
+    environment: lab
+    managed-by: stacklayer
