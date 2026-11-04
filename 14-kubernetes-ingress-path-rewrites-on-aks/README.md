@@ -63,10 +63,13 @@ Verify that the NGINX Ingress Controller is running on your AKS cluster and has 
 kubectl get service ingress-nginx-controller -n ingress-nginx
 ```
 
-*(If not already installed, deploy the official cloud manifest:)*
+*(If not already installed, deploy the verified release directly from the official Kubernetes SIG Network repository:)*
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
 ```
+
+> 💡 **Official Manifest Notice:** This deployment manifest is maintained directly by the official [Kubernetes Ingress-NGINX project](https://github.com/kubernetes/ingress-nginx). You can safely deploy this verified release, or visit the [Official Ingress-NGINX Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/) to explore newer release tags or Helm deployment options.
 
 ---
 
