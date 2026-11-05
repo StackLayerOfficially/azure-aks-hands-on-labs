@@ -17,7 +17,7 @@ For in-depth architectural diagrams, CoreDNS resolution packet walks, comparison
 ## 📁 Directory Structure
 
 ```text
-08-kubernetes-jobs-and-cronjobs/
+08-jobs-and-cronjobs-batch-processing/
 ├── README.md
 └── kube-manifests/
     ├── 01-stacklayer-batch-job.yaml           # One-off database migration batch job (run-to-completion)
