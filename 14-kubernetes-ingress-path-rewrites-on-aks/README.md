@@ -6,7 +6,7 @@ In modern cloud-native architectures, containerized web applications and microse
 
 However, when consolidating multiple microservices behind a single Azure Public IP using a Kubernetes Ingress controller, traffic must be routed using path prefixes. Without URL manipulation, forwarding requests like `/app1/index.html` causes backend containers to throw **HTTP 404 Not Found** errors because the container web root has no `/app1` directory.
 
-This hands-on operations lab demonstrates how to resolve the 404 trap using **NGINX Ingress regex capture groups and URL rewriting annotations**. You will route live traffic across two independent corporate microservices—**Genesis Core** (`Web Ver:1`) and **Nexus Velocity** (`Web Ver:2`)—stripping public prefixes at the ingress boundary while preserving dynamic sub-paths transparently to the backend pods.
+This hands-on operations lab demonstrates how to resolve the 404 trap using **NGINX Ingress regex capture groups and URL rewriting annotations**. You will route live traffic across two independent corporate microservices—**Genesis Core** (`Web Ver:1`) and **Velocity Edition** (`Web Ver:2`)—stripping public prefixes at the ingress boundary while preserving dynamic sub-paths transparently to the backend pods.
 
 ---
 
@@ -26,8 +26,8 @@ For in-depth architectural diagrams, CoreDNS resolution packet walks, comparison
 └── kube-manifests/
     ├── 01-genesis-core-app1-deployment.yaml     # Genesis Core microservice deployment (Web Ver:1)
     ├── 02-genesis-core-app1-service.yaml        # Genesis Core private ClusterIP service
-    ├── 03-nexus-velocity-app2-deployment.yaml   # Nexus Velocity microservice deployment (Web Ver:2)
-    ├── 04-nexus-velocity-app2-service.yaml      # Nexus Velocity private ClusterIP service
+    ├── 03-velocity-edition-app2-deployment.yaml   # Velocity Edition microservice deployment (Web Ver:2)
+    ├── 04-velocity-edition-app2-service.yaml      # Velocity Edition private ClusterIP service
     └── 05-stacklayer-ingress-rewrite-rules.yaml # NGINX Ingress rules with regex path rewrite ($2)
 ```
 
@@ -88,16 +88,16 @@ kubectl apply -f kube-manifests/02-genesis-core-app1-service.yaml
 
 ---
 
-### Step 3: Deploy Nexus Velocity (App 2) & Private ClusterIP Service
+### Step 3: Deploy Velocity Edition (App 2) & Private ClusterIP Service
 
-Deploy the second corporate microservice rendering **Nexus Velocity** (`Web Ver:2`):
+Deploy the second corporate microservice rendering **Velocity Edition** (`Web Ver:2`):
 
 ```bash
-# Deploy Nexus Velocity pod replicas
-kubectl apply -f kube-manifests/03-nexus-velocity-app2-deployment.yaml
+# Deploy Velocity Edition pod replicas
+kubectl apply -f kube-manifests/03-velocity-edition-app2-deployment.yaml
 
-# Expose Nexus Velocity via private ClusterIP
-kubectl apply -f kube-manifests/04-nexus-velocity-app2-service.yaml
+# Expose Velocity Edition via private ClusterIP
+kubectl apply -f kube-manifests/04-velocity-edition-app2-service.yaml
 ```
 
 Verify that all backend microservice pods and internal endpoints are healthy:
@@ -168,7 +168,7 @@ Testing Ingress on Public IP: 20.124.88.192
 #### Layer 2: Browser Web UI Verification
 Open your browser and navigate directly to your cluster's public entry points:
 * `http://<INGRESS-IP>/app1` &rarr; Renders **Genesis Core** corporate portal with `Web Ver:1` badge.
-* `http://<INGRESS-IP>/app2` &rarr; Renders **Nexus Velocity** enterprise portal with `Web Ver:2` badge.
+* `http://<INGRESS-IP>/app2` &rarr; Renders **Velocity Edition** enterprise portal with `Web Ver:2` badge.
 
 Both microservices serve requests seamlessly from a single Azure Public IP address with zero application code modifications.
 
