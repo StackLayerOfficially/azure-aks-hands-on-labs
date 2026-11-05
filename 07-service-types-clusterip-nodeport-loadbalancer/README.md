@@ -19,7 +19,7 @@ For in-depth architectural diagrams, CoreDNS resolution packet walks, comparison
 ## 📁 Directory Structure
 
 ```text
-07-kubernetes-service-types-clusterip-nodeport-loadbalancer/
+07-service-types-clusterip-nodeport-loadbalancer/
 ├── README.md
 └── kube-manifests/
     ├── 01-backend-deployment.yaml          # 2-replica NGINX backend workload
