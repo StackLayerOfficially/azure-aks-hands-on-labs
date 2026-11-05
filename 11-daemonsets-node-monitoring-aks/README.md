@@ -17,7 +17,7 @@ For complete architectural breakdowns, component comparison tables, detailed com
 ## 📁 Directory Structure
 
 ```text
-11-kubernetes-daemonsets-on-aks/
+11-daemonsets-node-monitoring-aks/
 ├── README.md
 └── kube-manifests/
     └── 01-stacklayer-node-agent.yaml   # DaemonSet manifest with hostPath volume mount and Downward API
