@@ -19,7 +19,7 @@ For in-depth architectural diagrams, CoreDNS resolution packet walks, comparison
 ## 📁 Directory Structure
 
 ```text
-09-kubernetes-init-containers-on-aks/
+09-init-containers-lifecycle-gates-aks/
 ├── README.md                                  # Complete hands-on lab documentation and architecture walk
 └── kube-manifests/
     ├── 01-stacklayer-web-app.yaml             # Web deployment with init container TCP readiness check
