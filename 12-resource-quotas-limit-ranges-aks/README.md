@@ -17,7 +17,7 @@ For complete architectural breakdowns, concept comparison tables, detailed comma
 ## 📁 Directory Structure
 
 ```text
-12-kubernetes-resource-quotas-and-limits-on-aks/
+12-resource-quotas-limit-ranges-aks/
 ├── README.md
 └── kube-manifests/
     ├── 01-stacklayer-governance-namespace.yaml   # Isolated namespace for resource policy testing
