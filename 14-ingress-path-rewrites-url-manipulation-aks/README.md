@@ -21,7 +21,7 @@ For in-depth architectural diagrams, CoreDNS resolution packet walks, comparison
 ## 📁 Directory Structure
 
 ```text
-14-kubernetes-ingress-path-rewrites-on-aks/
+14-ingress-path-rewrites-url-manipulation-aks/
 ├── README.md                                    # Comprehensive hands-on documentation
 └── kube-manifests/
     ├── 01-genesis-core-app1-deployment.yaml     # Genesis Core microservice deployment (Web Ver:1)
