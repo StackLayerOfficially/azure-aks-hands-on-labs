@@ -146,19 +146,17 @@ INGRESS_IP=$(kubectl get ingress stacklayer-ingress-routing -o jsonpath='{.statu
 echo "Testing Ingress on Public IP: $INGRESS_IP"
 
 # Test App 1 Routing (/app1)
-curl -s http://$INGRESS_IP/app1 | grep -i "Web Ver"
+curl -s http://$INGRESS_IP/app1 | grep -oi "Web Ver:[0-9]" | head -n 1
 
 # Test App 2 Routing (/app2)
-curl -s http://$INGRESS_IP/app2 | grep -i "Web Ver"
+curl -s http://$INGRESS_IP/app2 | grep -oi "Web Ver:[0-9]" | head -n 1
 ```
 
 Expected Terminal Output:
 ```text
-Testing Ingress on Public IP: 20.124.88.192
-        <span>Web Ver:1</span>
-        <span class="telemetry-value" style="color: #fda4af;">Web Ver:1</span>
-        <span>Web Ver:2</span>
-        <span class="telemetry-value" style="color: #6ee7b7;">Web Ver:2</span>
+Testing Ingress on Public IP: 4.188.102.53
+Web Ver:1
+Web Ver:2
 ```
 
 #### Layer 2: Browser Visual Verification
