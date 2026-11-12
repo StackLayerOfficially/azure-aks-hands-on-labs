@@ -142,27 +142,25 @@ kubectl describe ingress stacklayer-ingress-rewrite
 ### Step 6: Dual-Layer End-to-End Verification
 
 #### Layer 1: CLI Terminal Smoke Tests
-Dynamically extract your public load balancer IP and run automated curl smoke tests:
+Dynamically extract your public load balancer IP and run automated smoke tests to confirm URL prefix stripping:
 
 ```bash
-# Capture the public Ingress IP
+# Capture the active public Ingress IP
 INGRESS_IP=$(kubectl get ingress stacklayer-ingress-rewrite -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo "Testing Ingress on Public IP: $INGRESS_IP"
 
-# Test App 1 Routing (/app1)
-curl -s http://$INGRESS_IP/app1 | grep -i "Web Ver"
+# Test App 1 with URL prefix stripping (/app1)
+curl -s http://$INGRESS_IP/app1 | grep -oi "Web Ver:[0-9]" | head -n 1
 
-# Test App 2 Routing (/app2)
-curl -s http://$INGRESS_IP/app2 | grep -i "Web Ver"
+# Test App 2 with URL prefix stripping (/app2)
+curl -s http://$INGRESS_IP/app2 | grep -oi "Web Ver:[0-9]" | head -n 1
 ```
 
 Expected Terminal Output:
 ```text
-Testing Ingress on Public IP: 20.124.88.192
-    Web Ver:1
-    Web Ver:1
-    Web Ver:2
-    Web Ver:2
+Testing Ingress on Public IP: 20.219.229.217
+Web Ver:1
+Web Ver:2
 ```
 
 #### Layer 2: Browser Web UI Verification
