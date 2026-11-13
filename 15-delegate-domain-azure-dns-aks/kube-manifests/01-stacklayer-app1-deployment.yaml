@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-app1-deployment
+  labels:
+    app: stacklayer-app1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stacklayer-app1
+  template:
+    metadata:
+      labels:
+        app: stacklayer-app1
+    spec:
+      containers:
+        - name: stacklayer-app1-nginx
+          image: stacklayer/kubernetes:nginx-v3
+          ports:
+            - containerPort: 80
