@@ -1,0 +1,38 @@
+# Purpose: Deploys ExternalDNS v0.21.0 using OIDC Workload Identity and --policy=sync
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+  namespace: external-dns
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: external-dns
+  template:
+    metadata:
+      labels:
+        app: external-dns
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: external-dns
+      containers:
+        - name: external-dns
+          image: registry.k8s.io/external-dns/external-dns:v0.21.0
+          args:
+            - --source=service
+            - --source=ingress
+            - --provider=azure
+            - --domain-filter=stacklayer.cyou
+            - --policy=sync
+            - --txt-owner-id=stacklayer-aks-owner
+            - --interval=30s
+          volumeMounts:
+            - name: azure-config-file
+              mountPath: /etc/kubernetes
+              readOnly: true
+      volumes:
+        - name: azure-config-file
+          secret:
+            secretName: azure-config-file
