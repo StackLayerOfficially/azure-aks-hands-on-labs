@@ -1,0 +1,22 @@
+# Purpose: Deploys App 1 — Stack Layer Genesis Core (v1) pods
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-app1-v1-deployment
+  labels:
+    app: stacklayer-app1-v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stacklayer-app1-v1
+  template:
+    metadata:
+      labels:
+        app: stacklayer-app1-v1
+    spec:
+      containers:
+        - name: stacklayer-app1-nginx
+          image: stacklayer/kubernetes:nginx-v1
+          ports:
+            - containerPort: 80
