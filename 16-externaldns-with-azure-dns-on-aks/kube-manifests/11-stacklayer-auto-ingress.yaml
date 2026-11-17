@@ -1,0 +1,28 @@
+# Purpose: Multi-host NGINX Ingress whose spec.rules[].host entries trigger ExternalDNS auto5-sync
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stacklayer-auto-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: app1.stacklayer.cyou
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stacklayer-app1-v1-clusterip-service
+                port:
+                  number: 80
+    - host: app2.stacklayer.cyou
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stacklayer-app2-v2-clusterip-service
+                port:
+                  number: 80
