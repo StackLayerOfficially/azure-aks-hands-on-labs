@@ -1,0 +1,22 @@
+# Purpose: Deploys Stack Layer Apex Edition (v5) pods for standalone LoadBalancer DNS testing
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-direct-v5-deployment
+  labels:
+    app: stacklayer-direct-v5
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stacklayer-direct-v5
+  template:
+    metadata:
+      labels:
+        app: stacklayer-direct-v5
+    spec:
+      containers:
+        - name: stacklayer-direct-v5-nginx
+          image: stacklayer/kubernetes:nginx-v5
+          ports:
+            - containerPort: 80
