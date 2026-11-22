@@ -1,0 +1,36 @@
+# Purpose: Multi-host NGINX Ingress with automated Cert-Manager TLS & HTTPS enforcement
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stacklayer-tls-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - app1.stacklayer.cyou
+        - app2.stacklayer.cyou
+      secretName: stacklayer-tls-secret
+  rules:
+    - host: app1.stacklayer.cyou
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stacklayer-app1-v1-clusterip-service
+                port:
+                  number: 80
+    - host: app2.stacklayer.cyou
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stacklayer-app2-v2-clusterip-service
+                port:
+                  number: 80
