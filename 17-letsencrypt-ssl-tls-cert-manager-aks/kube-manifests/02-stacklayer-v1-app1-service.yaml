@@ -1,0 +1,15 @@
+# Purpose: Internal ClusterIP Service routing TLS-terminated traffic to App 1 pods
+apiVersion: v1
+kind: Service
+metadata:
+  name: stacklayer-app1-v1-clusterip-service
+  labels:
+    app: stacklayer-app1-v1
+spec:
+  type: ClusterIP
+  selector:
+    app: stacklayer-app1-v1
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
