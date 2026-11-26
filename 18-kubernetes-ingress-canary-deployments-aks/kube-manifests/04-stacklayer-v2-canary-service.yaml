@@ -1,0 +1,17 @@
+﻿# Purpose: Internal ClusterIP Service targeting Canary (v2) Pods exclusively
+apiVersion: v1
+kind: Service
+metadata:
+  name: stacklayer-canary-v2-service
+  labels:
+    app: stacklayer-canary
+    version: v2
+spec:
+  type: ClusterIP
+  selector:
+    app: stacklayer-canary
+    version: v2
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

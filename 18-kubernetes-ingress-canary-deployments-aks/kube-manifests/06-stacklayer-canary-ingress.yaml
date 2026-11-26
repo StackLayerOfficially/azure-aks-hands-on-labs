@@ -1,0 +1,22 @@
+﻿# Purpose: Canary Ingress routing 20% weighted traffic to v2 (Velocity Edition)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stacklayer-canary-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "20"
+    nginx.ingress.kubernetes.io/canary-weight-total: "100"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: web.stacklayer.cyou
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stacklayer-canary-v2-service
+                port:
+                  number: 80
