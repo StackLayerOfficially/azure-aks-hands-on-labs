@@ -1,0 +1,25 @@
+# Purpose: Deploys Stable Production Tier — Stack Layer Genesis Core (v1)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stacklayer-prod-v1-deployment
+  labels:
+    app: stacklayer-prod
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: stacklayer-prod
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: stacklayer-prod
+        version: v1
+    spec:
+      containers:
+        - name: stacklayer-prod-nginx
+          image: stacklayer/kubernetes:nginx-v1
+          ports:
+            - containerPort: 80
