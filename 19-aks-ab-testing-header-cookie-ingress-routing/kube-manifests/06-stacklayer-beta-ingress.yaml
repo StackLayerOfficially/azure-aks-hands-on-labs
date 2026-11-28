@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/canary-weight: "0"
     nginx.ingress.kubernetes.io/canary-by-header: "X-Release-Stage"
     nginx.ingress.kubernetes.io/canary-by-header-value: "beta"
-    nginx.ingress.kubernetes.io/canary-by-cookie: "stacklayer-cohort"
+    nginx.ingress.kubernetes.io/canary-by-cookie: "stacklayer_cohort"
 spec:
   ingressClassName: nginx
   rules:
